@@ -1,46 +1,73 @@
-<!-- Tempo Slider -->
-<label for="tempo">Tempo (BPM):</label>
-<input type="range" id="tempo" min="60" max="180" value="120">
-<span id="tempoValue">120</span> BPM
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musical Arpeggio Generator</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Assuming your CSS file is named styles.css -->
+</head>
+<body>
+    <h1>Musical Arpeggio Generator</h1>
 
-<!-- Key Dropdown -->
-<label for="keySelect">Key:</label>
-<select id="keySelect">
-    <option value="C">C</option>
-    <option value="C#">C#</option>
-    <option value="D">D</option>
-    <option value="D#">D#</option>
-    <option value="E">E</option>
-    <option value="F">F</option>
-    <option value="F#">F#</option>
-    <option value="G">G</option>
-    <option value="G#">G#</option>
-    <option value="A">A</option>
-    <option value="A#">A#</option>
-    <option value="B">B</option>
-</select>
+    <!-- Tempo Control -->
+    <div>
+        <label for="tempo">Tempo (BPM):</label>
+        <input type="range" id="tempo" min="60" max="180" value="120">
+        <span id="tempoValue">120</span> BPM
+    </div>
 
-<!-- Scale/Modes Dropdown -->
-<label for="scaleSelect">Scale/Mode:</label>
-<select id="scaleSelect">
-    <option value="major">Major</option>
-    <option value="minor">Minor</option>
-    <option value="dorian">Dorian</option>
-    <option value="phrygian">Phrygian</option>
-    <option value="lydian">Lydian</option>
-    <option value="mixolydian">Mixolydian</option>
-    <option value="aeolian">Aeolian</option>
-    <option value="locrian">Locrian</option>
-    <option value="arabic">Arabic</option>
-    <!-- Add other exotic scales as needed -->
-</select>
+    <!-- Key Selection -->
+    <div>
+        <label for="keySelect">Key:</label>
+        <select id="keySelect">
+            <option value="C">C</option>
+            <option value="C#">C#</option>
+            <option value="D">D</option>
+            <option value="D#">D#</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="F#">F#</option>
+            <option value="G">G</option>
+            <option value="G#">G#</option>
+            <option value="A">A</option>
+            <option value="A#">A#</option>
+            <option value="B">B</option>
+        </select>
+    </div>
 
-<!-- Direction Dropdown -->
-<label for="directionSelect">Direction:</label>
-<select id="directionSelect">
-    <option value="up">Up</option>
-    <option value="down">Down</option>
-    <option value="updown">Up and Down</option>
-    <option value="random">Random</option>
-</select>
+    <!-- Scale/Modes Selection -->
+    <div>
+        <label for="scaleSelect">Scale/Mode:</label>
+        <select id="scaleSelect">
+            <option value="major">Major</option>
+            <option value="minor">Minor</option>
+            <option value="dorian">Dorian</option>
+            <option value="phrygian">Phrygian</option>
+            <option value="lydian">Lydian</option>
+            <option value="mixolydian">Mixolydian</option>
+            <option value="aeolian">Aeolian</option>
+            <option value="locrian">Locrian</option>
+            <option value="arabic">Arabic</option>
+            <!-- Add other exotic scales as needed -->
+        </select>
+    </div>
 
+    <!-- Direction Selection -->
+    <div>
+        <label for="directionSelect">Direction:</label>
+        <select id="directionSelect">
+            <option value="up">Up</option>
+            <option value="down">Down</option>
+            <option value="updown">Up and Down</option>
+            <option value="random">Random</option>
+        </select>
+    </div>
+
+    <!-- Play Button -->
+    <div>
+        <button id="playButton">Play Arpeggio</button>
+    </div>
+
+    <script src="script.js"></script> <!-- Assuming your JavaScript file is named script.js -->
+</body>
+</html>
