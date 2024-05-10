@@ -54,15 +54,17 @@
     <script>
         let audioContext = new (window.AudioContext || window.webkitAudioContext)();
         let tempo = document.getElementById('tempo').value;
-        let intervalId = null;
+        let intervalId = null, scaleChangeId = null, patternChangeId = null;
 
         function playArpeggio() {
             if (intervalId) clearInterval(intervalId);
+            if (scaleChangeId) clearInterval(scaleChangeId);
+            if (patternChangeId) clearInterval(patternChangeId);
 
-            const scaleType = document.getElementById('scaleType').value;
-            const patternType = document.getElementById('patternType').value;
-            const frequencies = calculateFrequencies(scaleType);
-            const order = getOrder(patternType, frequencies.length);
+            const scaleType = document.getElementById('scaleType');
+            const patternType = document.getElementById('patternType');
+            const frequencies = calculateFrequencies(scaleType.value);
+            const order = getOrder(patternType.value, frequencies.length);
             let index = 0;
 
             intervalId = setInterval(() => {
@@ -70,11 +72,23 @@
                 createOscillator(frequencies[order[index]], 'sine');
                 index++;
             }, 60000 / document.getElementById('tempo').value);
+
+            scaleChangeId = setInterval(() => {
+                scaleType.selectedIndex = (scaleType.selectedIndex + 1) % scaleType.options.length;
+            }, 10000); // Change scale every 10 seconds
+
+            patternChangeId = setInterval(() => {
+                patternType.selectedIndex = (patternType.selectedIndex + 1) % patternType.options.length;
+            }, 15000); // Change pattern every 15 seconds
         }
 
         function stopArpeggio() {
             clearInterval(intervalId);
+            clearInterval(scaleChangeId);
+            clearInterval(patternChangeId);
             intervalId = null;
+            scaleChangeId = null;
+            patternChangeId = null;
         }
 
         document.getElementById('tempo').addEventListener('input', function() {
@@ -83,30 +97,25 @@
 
         function getOrder(patternType, length) {
             switch (patternType) {
-                case 'up':
-                    return Array.from(Array(length).keys());
-                case 'down':
-                    return Array.from(Array(length).keys()).reverse();
+                case 'up': return Array.from(Array(length).keys());
+                case 'down': return Array.from(Array(length).keys()).reverse();
                 case 'upAndDown':
                     const up = Array.from(Array(length).keys());
                     const down = up.slice().reverse().slice(1, -1);
                     return up.concat(down);
                 case 'random':
                     return Array.from(Array(length).keys()).sort(() => Math.random() - 0.5);
-                default:
-                    return [];
+                default: return [];
             }
         }
 
         function calculateFrequencies(scaleType) {
             const baseFrequency = 261.63; // Middle C (C4)
             switch (scaleType) {
-                // Add each scale's frequency pattern based on the selected type
                 case 'major':
                     return [baseFrequency, baseFrequency * Math.pow(2, 2/12), baseFrequency * Math.pow(2, 4/12), baseFrequency * Math.pow(2, 5/12), baseFrequency * Math.pow(2, 7/12), baseFrequency * Math.pow(2, 9/12), baseFrequency * Math.pow(2, 11/12), baseFrequency * 2];
                 case 'minor':
                     return [baseFrequency, baseFrequency * Math.pow(2, 2/12), baseFrequency * Math.pow(2, 3/12), baseFrequency * Math.pow(2, 5/12), baseFrequency * Math.pow(2, 7/12), baseFrequency * Math.pow(2, 8/12), baseFrequency * Math.pow(2, 10/12), baseFrequency * 2];
-                // Additional scales are defined here with their specific interval patterns
                 case 'dorian':
                     // Define other scales similarly...
                 default:
