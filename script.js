@@ -1,5 +1,13 @@
-// Basic JavaScript to interact with the Web Audio API
+document.getElementById('tempo').addEventListener('input', function() {
+    document.getElementById('tempoValue').textContent = this.value;
+});
+
 function playArpeggio() {
-    // Function to generate and play arpeggio
-    console.log('Arpeggio played'); // Replace with actual code
+    const tempo = document.getElementById('tempo').value;
+    const key = document.getElementById('keySelect').value;
+    const scale = document.getElementById('scaleSelect').value;
+    const direction = document.getElementById('directionSelect').value;
+
+    console.log(`Playing ${scale} in key of ${key} at ${tempo} BPM, direction: ${direction}`);
+    // Implement the actual audio generation and playback logic here
 }
