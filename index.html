@@ -17,7 +17,13 @@
         <select id="scaleType">
             <option value="major">Major</option>
             <option value="minor">Minor</option>
-            <!-- Add other scales as needed -->
+            <option value="dorian">Dorian</option>
+            <option value="phrygian">Phrygian</option>
+            <option value="lydian">Lydian</option>
+            <option value="mixolydian">Mixolydian</option>
+            <option value="aeolian">Aeolian</option>
+            <option value="locrian">Locrian</option>
+            <option value="arabic">Arabic</option>
         </select>
     </div>
     <div>
@@ -37,6 +43,10 @@
             <option value="sawtooth">Sawtooth</option>
             <option value="triangle">Triangle</option>
         </select>
+    </div>
+    <div>
+        <label for="tempoSlider">Tempo (BPM):</label>
+        <input type="range" id="tempoSlider" min="60" max="180" value="120">
     </div>
     <script src="script.js"></script>
 </body>
