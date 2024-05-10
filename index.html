@@ -5,21 +5,24 @@
 <title>Arpeggio Generator</title>
 <style>
     body {
-        font-family: Arial, sans-serif;
-        background-color: #333;
-        color: #ddd;
+        font-family: 'Arial', sans-serif;
+        background-color: #282c34;
+        color: #abb2bf;
         padding: 20px;
     }
     select, button, input {
         padding: 10px;
         margin: 5px;
-        background: #555;
-        color: #ddd;
-        border: none;
+        background: #3a3f4b;
+        color: #61afef;
+        border: 1px solid #61afef;
         border-radius: 5px;
     }
     label {
-        color: #ccc;
+        color: #98c379;
+    }
+    #tempoDisplay {
+        color: #e06c75;
     }
 </style>
 </head>
@@ -68,7 +71,7 @@
 
     <script>
         const audioContext = new AudioContext();
-        let isPlaying = false;
+        let isPlaying = false, currentInterval;
 
         document.getElementById('playButton').addEventListener('click', function() {
             if (audioContext.state === 'suspended') {
@@ -82,11 +85,16 @@
 
         document.getElementById('stopButton').addEventListener('click', function() {
             isPlaying = false;
+            clearInterval(currentInterval);
         });
 
-        document.getElementById('tempoSlider').oninput = function() {
+        document.getElementById('tempoSlider').addEventListener('input', function() {
             document.getElementById('tempoDisplay').textContent = this.value + ' BPM';
-        };
+            if (isPlaying) {
+                clearInterval(currentInterval);
+                playArpeggio();
+            }
+        });
 
         function playArpeggio() {
             const scaleType = document.getElementById('scaleType').value;
@@ -99,46 +107,41 @@
             const noteOrder = getOrder(patternType, frequencies.length);
 
             let noteIndex = 0;
-
-            function scheduleNextNote() {
-                if (!isPlaying) return;
+            currentInterval = setInterval(() => {
+                if (!isPlaying) {
+                    clearInterval(currentInterval);
+                    return;
+                }
                 const realNoteIndex = noteOrder[noteIndex % noteOrder.length];
                 const frequency = frequencies[realNoteIndex];
                 const oscillator = createOscillator(frequency, waveformType);
                 oscillator.start();
-                setTimeout(() => {
-                    oscillator.stop();
-                    if (isPlaying) {
-                        scheduleNextNote();
-                    }
-                }, noteDuration);
+                setTimeout(() => oscillator.stop(), noteDuration);
 
                 noteIndex++;
-            }
-
-            scheduleNextNote();
+            }, noteDuration);
         }
 
-        function getOrder(pattern, length) {
-            switch (pattern) {
+        function getOrder(patternType, length) {
+            switch (patternType) {
                 case 'up':
-                    return [...Array(length).keys()];
+                    return Array.from(Array(length).keys()); // 0, 1, 2, ..., length-1
                 case 'down':
-                    return [...Array(length).keys()].reverse();
+                    return Array.from(Array(length).keys()).reverse(); // length-1, length-2, ..., 0
                 case 'upAndDown':
-                    const up = [...Array(length).keys()];
-                    const down = [...Array(length).keys()].reverse().slice(1);
+                    const up = Array.from(Array(length).keys());
+                    const down = up.slice().reverse().slice(1, -1);
                     return up.concat(down);
                 case 'random':
-                    return [...Array(length).keys()].sort(() => Math.random() - 0.5);
+                    return Array.from(Array(length).keys()).sort(() => Math.random() - 0.5);
                 default:
-                    return [...Array(length).keys()];
+                    return [];
             }
         }
 
-        function calculateFrequencies(scale) {
-            const baseFrequency = 261.63; // C4, Middle C
-            switch (scale) {
+        function calculateFrequencies(scaleType) {
+            const baseFrequency = 261.63; // Middle C (C4)
+            switch (scaleType) {
                 case 'major':
                     return [baseFrequency, baseFrequency * Math.pow(2, 2/12), baseFrequency * Math.pow(2, 4/12), baseFrequency * Math.pow(2, 5/12), baseFrequency * Math.pow(2, 7/12), baseFrequency * Math.pow(2, 9/12), baseFrequency * Math.pow(2, 11/12), baseFrequency * 2];
                 case 'minor':
@@ -172,6 +175,11 @@
             envelope.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 1);
             oscillator.connect(envelope);
             envelope.connect(audioContext.destination);
+            oscillator.start();
+            setTimeout(() => {
+                oscillator.stop();
+                oscillator.disconnect();
+            }, 500);
             return oscillator;
         }
     </script>
