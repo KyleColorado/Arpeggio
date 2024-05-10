@@ -1,69 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arpeggio Generator</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arpeggio Generator</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<h1>Arpeggio Generator</h1>
-
-<div>
-    <label for="tempo">Tempo (BPM):</label>
-    <input type="range" id="tempo" min="60" max="180" value="120" oninput="document.getElementById('tempoValue').textContent = this.value">
-    <span id="tempoValue">120</span> BPM
-</div>
-
-<div>
-    <label for="keySelect">Key:</label>
-    <select id="keySelect">
-        <option value="C">C</option>
-        <option value="C#">C#</option>
-        <option value="D">D</option>
-        <option value="D#">D#</option>
-        <option value="E">E</option>
-        <option value="F">F</option>
-        <option value="F#">F#</option>
-        <option value="G">G</option>
-        <option value="G#">G#</option>
-        <option value="A">A</option>
-        <option value="A#">A#</option>
-        <option value="B">B</option>
-    </select>
-</div>
-
-<div>
-    <label for="scaleSelect">Scale/Mode:</label>
-    <select id="scaleSelect">
-        <option value="major">Major</option>
-        <option value="minor">Minor</option>
-        <option value="dorian">Dorian</option>
-        <option value="phrygian">Phrygian</option>
-        <option value="lydian">Lydian</option>
-        <option value="mixolydian">Mixolydian</option>
-        <option value="aeolian">Aeolian</option>
-        <option value="locrian">Locrian</option>
-        <option value="arabian">Arabian</option>
-        <option value="hungarianMinor">Hungarian Minor</option>
-    </select>
-</div>
-
-<div>
-    <label for="patternSelect">Pattern:</label>
-    <select id="patternSelect">
-        <option value="up">Up</option>
-        <option value="down">Down</option>
-        <option value="upDown">Up and Down</option>
-        <option value="random">Random</option>
-    </select>
-</div>
-
-<div>
-    <button id="playButton">Play Arpeggio</button>
-    <button id="stopButton">Stop</button>
-</div>
-
-<script src="script.js"></script>
+    <h1>Arpeggio Generator</h1>
+    <div>
+        <button id="playButton">Play</button>
+        <button id="stopButton">Stop</button>
+    </div>
+    <div>
+        <label for="scaleType">Scale Type:</label>
+        <select id="scaleType">
+            <option value="major">Major</option>
+            <option value="minor">Minor</option>
+            <!-- Add other scales as needed -->
+        </select>
+    </div>
+    <div>
+        <label for="patternType">Pattern Type:</label>
+        <select id="patternType">
+            <option value="up">Up</option>
+            <option value="down">Down</option>
+            <option value="upAndDown">Up and Down</option>
+            <option value="random">Random</option>
+        </select>
+    </div>
+    <div>
+        <label for="oscillatorType">Waveform Type:</label>
+        <select id="oscillatorType">
+            <option value="sine">Sine</option>
+            <option value="square">Square</option>
+            <option value="sawtooth">Sawtooth</option>
+            <option value="triangle">Triangle</option>
+        </select>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
