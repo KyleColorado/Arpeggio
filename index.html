@@ -141,4 +141,14 @@
 
         function createOscillator(freq, type) {
             const oscillator = audioContext.createOscillator();
-            oscillator
+            oscillator.type = type;
+            oscillator.frequency.value = freq;
+            const envelope = audioContext.createGain();
+            envelope.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + 1);
+            oscillator.connect(envelope);
+            envelope.connect(audioContext.destination);
+            return oscillator;
+        }
+    </script>
+</body>
+</html>
