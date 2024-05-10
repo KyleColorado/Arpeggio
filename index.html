@@ -7,16 +7,19 @@
     body {
         font-family: Arial, sans-serif;
         background-color: #333;
-        color: #fff;
+        color: #ddd;
         padding: 20px;
     }
     select, button, input {
         padding: 10px;
         margin: 5px;
         background: #555;
-        color: #fff;
+        color: #ddd;
         border: none;
         border-radius: 5px;
+    }
+    label {
+        color: #ccc;
     }
 </style>
 </head>
@@ -27,7 +30,14 @@
         <select id="scaleType">
             <option value="major">Major</option>
             <option value="minor">Minor</option>
-            <!-- Add more scales as needed -->
+            <option value="dorian">Dorian</option>
+            <option value="phrygian">Phrygian</option>
+            <option value="lydian">Lydian</option>
+            <option value="mixolydian">Mixolydian</option>
+            <option value="aeolian">Aeolian</option>
+            <option value="locrian">Locrian</option>
+            <option value="harmonicMinor">Harmonic Minor</option>
+            <option value="melodicMinor">Melodic Minor</option>
         </select>
     </div>
     <div>
@@ -133,9 +143,24 @@
                     return [baseFrequency, baseFrequency * Math.pow(2, 2/12), baseFrequency * Math.pow(2, 4/12), baseFrequency * Math.pow(2, 5/12), baseFrequency * Math.pow(2, 7/12), baseFrequency * Math.pow(2, 9/12), baseFrequency * Math.pow(2, 11/12), baseFrequency * 2];
                 case 'minor':
                     return [baseFrequency, baseFrequency * Math.pow(2, 2/12), baseFrequency * Math.pow(2, 3/12), baseFrequency * Math.pow(2, 5/12), baseFrequency * Math.pow(2, 7/12), baseFrequency * Math.pow(2, 8/12), baseFrequency * Math.pow(2, 10/12), baseFrequency * 2];
-                // Add more scales as needed
+                case 'dorian':
+                    return [baseFrequency, baseFrequency * Math.pow(2, 2/12), baseFrequency * Math.pow(2, 3/12), baseFrequency * Math.pow(2, 5/12), baseFrequency * Math.pow(2, 7/12), baseFrequency * Math.pow(2, 9/12), baseFrequency * Math.pow(2, 10/12), baseFrequency * 2];
+                case 'phrygian':
+                    return [baseFrequency, baseFrequency * Math.pow(2, 1/12), baseFrequency * Math.pow(2, 3/12), baseFrequency * Math.pow(2, 5/12), baseFrequency * Math.pow(2, 7/12), baseFrequency * Math.pow(2, 8/12), baseFrequency * Math.pow(2, 10/12), baseFrequency * 2];
+                case 'lydian':
+                    return [baseFrequency, baseFrequency * Math.pow(2, 2/12), baseFrequency * Math.pow(2, 4/12), baseFrequency * Math.pow(2, 6/12), baseFrequency * Math.pow(2, 7/12), baseFrequency * Math.pow(2, 9/12), baseFrequency * Math.pow(2, 11/12), baseFrequency * 2];
+                case 'mixolydian':
+                    return [baseFrequency, baseFrequency * Math.pow(2, 2/12), baseFrequency * Math.pow(2, 4/12), baseFrequency * Math.pow(2, 5/12), baseFrequency * Math.pow(2, 7/12), baseFrequency * Math.pow(2, 9/12), baseFrequency * Math.pow(2, 10/12), baseFrequency * 2];
+                case 'aeolian':
+                    return [baseFrequency, baseFrequency * Math.pow(2, 2/12), baseFrequency * Math.pow(2, 3/12), baseFrequency * Math.pow(2, 5/12), baseFrequency * Math.pow(2, 7/12), baseFrequency * Math.pow(2, 8/12), baseFrequency * Math.pow(2, 10/12), baseFrequency * 2];
+                case 'locrian':
+                    return [baseFrequency, baseFrequency * Math.pow(2, 1/12), baseFrequency * Math.pow(2, 3/12), baseFrequency * Math.pow(2, 5/12), baseFrequency * Math.pow(2, 6/12), baseFrequency * Math.pow(2, 8/12), baseFrequency * Math.pow(2, 10/12), baseFrequency * 2];
+                case 'harmonicMinor':
+                    return [baseFrequency, baseFrequency * Math.pow(2, 2/12), baseFrequency * Math.pow(2, 3/12), baseFrequency * Math.pow(2, 5/12), baseFrequency * Math.pow(2, 7/12), baseFrequency * Math.pow(2, 8/12), baseFrequency * Math.pow(2, 11/12), baseFrequency * 2];
+                case 'melodicMinor':
+                    return [baseFrequency, baseFrequency * Math.pow(2, 2/12), baseFrequency * Math.pow(2, 3/12), baseFrequency * Math.pow(2, 5/12), baseFrequency * Math.pow(2, 7/12), baseFrequency * Math.pow(2, 9/12), baseFrequency * Math.pow(2, 11/12), baseFrequency * 2];
                 default:
-                    return [baseFrequency, baseFrequency * Math.pow(2, 2/12), baseFrequency * Math.pow(2, 4/12), baseFrequency * Math.pow(2, 5/12), baseFrequency * Math.pow(2, 7/12), baseFrequency * Math.pow(2, 9/12), baseFrequency * Math.pow(2, 11/12), baseFrequency * 2];
+                    return [baseFrequency];
             }
         }
 
