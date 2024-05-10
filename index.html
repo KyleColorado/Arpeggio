@@ -11,7 +11,7 @@
 
 <div>
     <label for="tempo">Tempo (BPM):</label>
-    <input type="range" id="tempo" min="60" max="180" value="120">
+    <input type="range" id="tempo" min="60" max="180" value="120" oninput="document.getElementById('tempoValue').textContent = this.value">
     <span id="tempoValue">120</span> BPM
 </div>
 
@@ -38,12 +38,30 @@
     <select id="scaleSelect">
         <option value="major">Major</option>
         <option value="minor">Minor</option>
-        <!-- Add other scales as needed -->
+        <option value="dorian">Dorian</option>
+        <option value="phrygian">Phrygian</option>
+        <option value="lydian">Lydian</option>
+        <option value="mixolydian">Mixolydian</option>
+        <option value="aeolian">Aeolian</option>
+        <option value="locrian">Locrian</option>
+        <option value="arabian">Arabian</option>
+        <option value="hungarianMinor">Hungarian Minor</option>
+    </select>
+</div>
+
+<div>
+    <label for="patternSelect">Pattern:</label>
+    <select id="patternSelect">
+        <option value="up">Up</option>
+        <option value="down">Down</option>
+        <option value="upDown">Up and Down</option>
+        <option value="random">Random</option>
     </select>
 </div>
 
 <div>
     <button id="playButton">Play Arpeggio</button>
+    <button id="stopButton">Stop</button>
 </div>
 
 <script src="script.js"></script>
