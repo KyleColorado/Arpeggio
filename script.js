@@ -12,25 +12,28 @@ document.getElementById('playButton').addEventListener('click', function() {
 document.getElementById('stopButton').addEventListener('click', stopArpeggio);
 
 function playArpeggio() {
-    clearOscillators(); // Clear any previously playing oscillators
+    stopArpeggio(); // Clear any previously playing oscillators and timeouts
 
-    const type = document.getElementById('scaleType').value;
-    const pattern = document.getElementById('patternType').value;
-    const waveform = document.getElementById('oscillatorType').value;
+    const scaleType = document.getElementById('scaleType').value;
+    const patternType = document.getElementById('patternType').value;
+    const waveformType = document.getElementById('oscillatorType').value;
     const bpm = parseInt(document.getElementById('tempoSlider').value);
-    const noteDuration = (60 / bpm) * 1000; // duration in milliseconds
+    const noteDuration = (60 / bpm) * 1000; // Duration of each note in milliseconds
 
-    // Frequency calculation for the scale
-    let frequencies = calculateFrequencies(type);
+    // Calculate frequencies for the selected scale
+    const frequencies = calculateFrequencies(scaleType);
 
-    // Determine note order based on the pattern
-    let noteOrder = getOrder(pattern, frequencies.length);
+    // Determine the order of notes based on the selected pattern
+    const noteOrder = getOrder(patternType, frequencies.length);
 
+    // Schedule each note to play at the correct time
     noteOrder.forEach((noteIndex, index) => {
         const timeout = setTimeout(() => {
-            const oscillator = createOscillator(frequencies[noteIndex], waveform);
+            const frequency = frequencies[noteIndex];
+            const oscillator = createOscillator(frequency, waveformType);
             oscillator.start();
-            oscillator.stop(audioContext.currentTime + (noteDuration / 1000)); // Stop after note duration
+            // Stop the oscillator after the note's duration
+            setTimeout(() => oscillator.stop(), noteDuration);
             activeOscillators.push(oscillator);
         }, noteDuration * index);
         noteTimeouts.push(timeout);
@@ -45,27 +48,25 @@ function getOrder(pattern, length) {
             return [...Array(length).keys()].reverse();
         case 'upAndDown':
             const up = [...Array(length).keys()];
-            const down = up.slice(0, -1).reverse().slice(1);
+            const down = [...Array(length).keys()].reverse().slice(1);
             return up.concat(down);
         case 'random':
-            const random = [...Array(length).keys()];
-            return random.sort(() => Math.random() - 0.5);
+            return [...Array(length).keys()].sort(() => Math.random() - 0.5);
         default:
             return [...Array(length).keys()];
     }
 }
 
 function calculateFrequencies(scale) {
-    // Placeholder: Simple C major scale (implement actual scale logic)
-    const baseFrequency = 261.63; // C4
+    const baseFrequency = 261.63; // C4 in Hz
     switch (scale) {
         case 'major':
-            return [baseFrequency, baseFrequency * 1.12246, baseFrequency * 1.25992]; // C, E, G
+            return [baseFrequency, baseFrequency * Math.pow(2, 4/12), baseFrequency * Math.pow(2, 7/12)];
         case 'minor':
-            return [baseFrequency, baseFrequency * 1.18921, baseFrequency * 1.25992]; // C, Eb, G
-        // Add more scales here
+            return [baseFrequency, baseFrequency * Math.pow(2, 3/12), baseFrequency * Math.pow(2, 7/12)];
+        // Define other scales as needed
         default:
-            return [baseFrequency, baseFrequency * 1.12246, baseFrequency * 1.25992];
+            return [baseFrequency, baseFrequency * Math.pow(2, 4/12), baseFrequency * Math.pow(2, 7/12)];
     }
 }
 
@@ -77,9 +78,9 @@ function createOscillator(freq, type) {
     return oscillator;
 }
 
-function clearOscillators() {
-    activeOscillators.forEach(osc => osc.stop());
+function stopArpeggio() {
     noteTimeouts.forEach(timeout => clearTimeout(timeout));
-    activeOscillators = [];
+    activeOscillators.forEach(osc => osc.stop());
     noteTimeouts = [];
+    activeOscillators = [];
 }
